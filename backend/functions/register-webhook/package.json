@@ -1,0 +1,12 @@
+{
+  "name": "webhook-with-mongodb",
+  "version": "1.0.0",
+  "description": "Webhook management system with MongoDB",
+  "main": "app.js",
+  "author": "SAM CLI",
+  "license": "MIT",
+  "dependencies": {
+    "mongodb": "^4.2.2",
+    "valid-url": "^1.0.9"
+  }
+}

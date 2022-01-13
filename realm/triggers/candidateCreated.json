@@ -1,0 +1,13 @@
+{
+  "name": "candidateCreated",
+  "type": "DATABASE",
+  "config": {
+    "service_name": "mongodb-atlas",
+    "database": "testing",
+    "collection": "users",
+    "operation_types": ["INSERT"],
+    "full_document": true,
+    "full_document_before_change": false
+  },
+  "function_name": "CandidateCreated"
+}

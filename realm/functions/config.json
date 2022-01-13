@@ -1,0 +1,37 @@
+[
+  {
+    "name": "CandidateCreated",
+    "disable_arg_logs": false,
+    "run_as_system": true,
+    "run_as_user_id": "",
+    "run_as_user_id_script_source": ""
+  },
+  {
+    "name": "CreateWebhookCall",
+    "disable_arg_logs": false,
+    "run_as_system": true,
+    "run_as_user_id": "",
+    "run_as_user_id_script_source": ""
+  },
+  {
+    "name": "CreateWebhookPayload",
+    "disable_arg_logs": false,
+    "run_as_system": true,
+    "run_as_user_id": "",
+    "run_as_user_id_script_source": ""
+  },
+  {
+    "name": "GetUserObject",
+    "disable_arg_logs": false,
+    "run_as_system": true,
+    "run_as_user_id": "",
+    "run_as_user_id_script_source": ""
+  },
+  {
+    "name": "GetWebhook",
+    "disable_arg_logs": false,
+    "run_as_system": true,
+    "run_as_user_id": "",
+    "run_as_user_id_script_source": ""
+  }
+]

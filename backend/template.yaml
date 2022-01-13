@@ -1,0 +1,91 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  webhook-with-mongo
+
+  Sample SAM Template for webhook-with-mongodb
+
+Parameters:
+  Stage:
+    Type: String
+    Default: 'dev'
+  MongodbUri:
+    Type: String
+  MongodbDatabase:
+    Type: String
+
+Globals:
+  Function:
+    Timeout: 10
+
+Resources:
+  ApiGatewayApi:
+    Type: AWS::Serverless::Api
+    Properties:
+      StageName: !Ref Stage
+      Cors:
+        AllowMethods: "'OPTIONS,POST,GET'"
+        AllowHeaders: "'Content-Type'"
+        AllowOrigin: "'*'"
+  RegisterWebhookFunction:
+    Type: AWS::Serverless::Function
+    Description: Webhook registration function
+    Properties:
+      CodeUri: functions/register-webhook/
+      Handler: app.lambdaHandler
+      Runtime: nodejs14.x
+      Environment:
+        Variables:
+          MONGODB_URI: !Ref MongodbUri
+          MONGODB_DATABASE: !Ref MongodbDatabase
+      Events:
+        CreateWebhookApi:
+          Type: Api
+          Properties:
+            Path: /webhooks
+            Method: post
+            RestApiId: !Ref ApiGatewayApi
+
+  CreateUserFunction:
+    Type: AWS::Serverless::Function
+    Description: Create user function
+    Properties:
+      CodeUri: functions/create-user/
+      Handler: app.lambdaHandler
+      Runtime: nodejs14.x
+      Environment:
+        Variables:
+          MONGODB_URI: !Ref MongodbUri
+          MONGODB_DATABASE: !Ref MongodbDatabase
+      Events:
+        CreateWebhookApi:
+          Type: Api
+          Properties:
+            Path: /users
+            Method: post
+            RestApiId: !Ref ApiGatewayApi
+
+  FetchWebhookHistoryFunction:
+    Type: AWS::Serverless::Function
+    Description: Fetcho webhook call history by companyId
+    Properties:
+      CodeUri: functions/fetch-webhook-history/
+      Handler: app.lambdaHandler
+      Runtime: nodejs14.x
+      Timeout: 10
+      Environment:
+        Variables:
+          MONGODB_URI: !Ref MongodbUri
+          MONGODB_DATABASE: !Ref MongodbDatabase
+      Events:
+        CreateWebhookHistoryApi:
+          Type: Api
+          Properties:
+            Path: /webhook_history/{companyId}
+            Method: get
+            RestApiId: !Ref ApiGatewayApi
+
+Outputs:
+  ApiBaseUrl:
+    Description: "Base Url"
+    Value: !Sub "https://${ApiGatewayApi}.execute-api.${AWS::Region}.amazonaws.com/${Stage}/"
